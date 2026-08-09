@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Debarun Guha — Front-End Web Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#11131A;
+    --surface:#1A1D28;
+    --surface-2:#22263380;
+    --line:#2C3040;
+    --text:#F2F0EA;
+    --muted:#9195A6;
+    --amber:#E8A93B;
+    --blue:#6FB2D9;
+    --mono: 'JetBrains Mono', monospace;
+    --sora: 'Sora', sans-serif;
+    --inter: 'Inter', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);
+    color:var(--text);
+    font-family:var(--inter);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  ::selection{background:var(--amber); color:var(--ink);}
+
+  .wrap{max-width:920px; margin:0 auto; padding:0 24px;}
+
+  /* NAV */
+  nav{
+    position:sticky; top:0; z-index:10;
+    background:rgba(17,19,26,0.85);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex; justify-content:space-between; align-items:center; padding-top:16px; padding-bottom:16px;}
+  .logo{font-family:var(--mono); font-size:14px; color:var(--amber); letter-spacing:0.5px;}
+  nav ul{display:flex; gap:28px; list-style:none;}
+  nav ul a{font-size:14px; color:var(--muted); text-decoration:none; transition:color 0.2s;}
+  nav ul a:hover{color:var(--text);}
+
+  /* HERO */
+  header.hero{padding:88px 0 56px; border-bottom:1px solid var(--line);}
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; color:var(--amber);
+    letter-spacing:1.5px; text-transform:uppercase; margin-bottom:20px;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .eyebrow::before{content:''; width:6px; height:6px; background:var(--amber); border-radius:50%; display:inline-block;}
+  h1{
+    font-family:var(--sora); font-weight:800;
+    font-size:clamp(38px, 6vw, 60px);
+    line-height:1.05; letter-spacing:-1px;
+    margin-bottom:14px;
+  }
+  .role{
+    font-family:var(--sora); font-weight:600; font-size:20px;
+    color:var(--blue); margin-bottom:22px;
+  }
+  .tagline{max-width:520px; color:var(--muted); font-size:16px; margin-bottom:32px;}
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    font-family:var(--inter); font-weight:600; font-size:14px;
+    padding:12px 22px; border-radius:6px; text-decoration:none;
+    display:inline-block; transition:transform 0.15s, background 0.2s;
+  }
+  .btn-primary{background:var(--amber); color:var(--ink);}
+  .btn-primary:hover{transform:translateY(-2px); background:#f0b752;}
+  .btn-ghost{border:1px solid var(--line); color:var(--text);}
+  .btn-ghost:hover{border-color:var(--amber); color:var(--amber);}
+
+  /* TERMINAL SIGNATURE STRIP */
+  .terminal{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:8px;
+    margin:40px 0 0;
+    padding:20px 24px;
+    font-family:var(--mono);
+    font-size:13.5px;
+    max-width:560px;
+  }
+  .terminal .dots{display:flex; gap:6px; margin-bottom:14px;}
+  .terminal .dots span{width:9px; height:9px; border-radius:50%; background:var(--line); display:inline-block;}
+  .term-line{color:var(--muted); margin-bottom:4px;}
+  .term-line .k{color:var(--blue);}
+  .term-line .v{color:var(--amber);}
+  .cursor{display:inline-block; width:7px; height:14px; background:var(--amber); vertical-align:middle; animation:blink 1s step-end infinite;}
+  @keyframes blink{50%{opacity:0;}}
+
+  /* SECTION HEADINGS */
+  section{padding:64px 0; border-bottom:1px solid var(--line);}
+  .sec-label{
+    font-family:var(--mono); font-size:12px; color:var(--muted);
+    letter-spacing:1.5px; text-transform:uppercase; margin-bottom:8px;
+  }
+  h2{font-family:var(--sora); font-weight:700; font-size:28px; margin-bottom:32px;}
+
+  /* SKILLS */
+  .chip-grid{display:flex; flex-wrap:wrap; gap:10px;}
+  .chip{
+    font-family:var(--mono); font-size:13px;
+    border:1px solid var(--line); border-radius:20px;
+    padding:8px 16px; color:var(--text);
+    transition:border-color 0.2s, color 0.2s;
+  }
+  .chip:hover{border-color:var(--amber); color:var(--amber);}
+
+  /* PROJECTS */
+  .project-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  @media(max-width:680px){.project-grid{grid-template-columns:1fr;}}
+  .card{
+    background:var(--surface); border:1px solid var(--line); border-radius:10px;
+    padding:26px; display:flex; flex-direction:column; gap:12px;
+  }
+  .card h3{font-family:var(--sora); font-size:18px;}
+  .card p{color:var(--muted); font-size:14px;}
+  .tag-row{display:flex; gap:6px; flex-wrap:wrap; margin-top:auto;}
+  .tag{font-family:var(--mono); font-size:11px; color:var(--blue); border:1px solid var(--line); border-radius:4px; padding:3px 8px;}
+
+  /* MINI APP — Task Tracker (live demo project) */
+  .app-box{background:var(--ink); border:1px solid var(--line); border-radius:8px; padding:16px; margin-top:6px;}
+  .app-row{display:flex; gap:8px; margin-bottom:12px;}
+  .app-row input{
+    flex:1; background:var(--surface); border:1px solid var(--line); border-radius:6px;
+    padding:9px 12px; color:var(--text); font-family:var(--inter); font-size:13px;
+  }
+  .app-row input:focus{outline:none; border-color:var(--amber);}
+  .app-row button{
+    background:var(--blue); color:var(--ink); border:none; border-radius:6px;
+    padding:9px 14px; font-family:var(--inter); font-weight:600; font-size:13px; cursor:pointer;
+  }
+  #taskList{list-style:none; display:flex; flex-direction:column; gap:8px;}
+  #taskList li{
+    display:flex; justify-content:space-between; align-items:center;
+    background:var(--surface); border:1px solid var(--line); border-radius:6px;
+    padding:9px 12px; font-size:13.5px;
+  }
+  #taskList li.done span.txt{text-decoration:line-through; color:var(--muted);}
+  #taskList li .actions{display:flex; gap:10px;}
+  #taskList li button{background:none; border:none; color:var(--muted); cursor:pointer; font-size:13px;}
+  #taskList li button:hover{color:var(--amber);}
+  .empty-hint{color:var(--muted); font-size:13px; font-family:var(--mono);}
+
+  /* ABOUT */
+  .about-text{max-width:640px; color:var(--muted); font-size:15.5px;}
+  .about-text strong{color:var(--text);}
+
+  /* CONTACT / FOOTER */
+  footer{padding:56px 0 40px;}
+  footer h2{margin-bottom:14px;}
+  .contact-list{display:flex; flex-direction:column; gap:10px; margin-bottom:28px;}
+  .contact-list a{font-family:var(--mono); font-size:14.5px; color:var(--text); text-decoration:none;}
+  .contact-list a:hover{color:var(--amber);}
+  .foot-note{color:var(--muted); font-size:12.5px;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo">Debarun Guha</div>
+    <ul>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Available for front-end roles · Kolkata</div>
+    <h1>Debarun Guha</h1>
+    <div class="role">Front-End Web Developer</div>
+    <p class="tagline"> Front-end developer in training with hands-on experience in HTML, CSS, JavaScript, Bootstrap and jQuery, gained through an 11-month web development internship. Bringing 3+ years of professional client-handling experience and a strong commitment to building clean, user-friendly interfaces.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="mailto:debarunguha18@gmail.com">Email me</a>
+      <a class="btn btn-ghost" href="#work">See my work</a>
+    </div>
+
+    <div class="terminal">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <div class="term-line"><span class="k">career.previous</span> = <span class="v">"Customer Care Executive"</span></div>
+      <div class="term-line"><span class="k">career.current</span> = <span class="v">"Web Designer"</span></div>
+      <div class="term-line"><span class="k">status</span> = <span class="v">"open_to_work"</span><span class="cursor"></span></div>
+    </div>
+  </div>
+</header>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="sec-label">Toolkit</div>
+    <h2>Skills</h2>
+    <div class="chip-grid">
+      <div class="chip">HTML5</div>
+      <div class="chip">CSS3</div>
+      <div class="chip">JavaScript</div>
+      <div class="chip">Bootstrap</div>
+      <div class="chip">jQuery</div>
+      <div class="chip">AJAX</div>
+      <div class="chip">SQL (basics)</div>
+      <div class="chip">Responsive Design</div>
+      <div class="chip">Git &amp; GitHub</div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="wrap">
+    <div class="sec-label">Selected work</div>
+    <h2>My Project</h2>
+    <div class="project-grid">
+      <div class="card">
+        <h3>This Portfolio</h3>
+        <p>Designed and developed independently using HTML, CSS and JavaScript. Fully responsive across devices, with custom interactive components including the task tracker below.</p>
+        <div class="tag-row">
+          <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Quick Task Tracker</h3>
+        <p>A tiny live app — add a task, mark it done, delete it. Try it below; it's running on the page right now.</p>
+        <div class="app-box">
+          <div class="app-row">
+            <input type="text" id="taskInput" placeholder="Add a task and press Enter">
+            <button onclick="addTask()">Add</button>
+          </div>
+          <ul id="taskList"></ul>
+          <p class="empty-hint" id="emptyHint">No tasks yet — add one above.</p>
+        </div>
+        <div class="tag-row">
+          <span class="tag">JavaScript</span><span class="tag">DOM</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="sec-label">Background</div>
+    <h2>About Me</h2>
+    <p class="about-text">
+             With over three years of professional experience as a <strong>Customer Care Executive </strong>, I developed strong client communication, problem-solving and issue-resolution skills. Alongside this, I completed an  <strong>11-month web development internship</strong> at Softech Solutions Private Limited, gaining hands-on experience in HTML, CSS, JavaScript and Bootstrap, along with jQuery and AJAX for interactive functionality. I am currently dedicating focused daily effort to strengthening my front-end development skills and pursuing a full-time role in the field.                
+    </p>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="sec-label">Get in touch</div>
+    <h2>Contact</h2>
+    <div class="contact-list">
+      <a href="mailto:debarunguha18@gmail.com">debarunguha18@gmail.com</a>
+      <a href="tel:+917439976434">+91 74399 76434</a>
+      <span style="font-family:var(--mono); font-size:14.5px; color:var(--muted);">Kolkata, West Bengal</span>
+    </div>
+    <div class="foot-note">Designed &amp; Maintained by Debarun Guha.</div>
+  </div>
+</footer>
+
+<script>
+  function addTask(){
+    const input = document.getElementById('taskInput');
+    const value = input.value.trim();
+    if(!value) return;
+    const list = document.getElementById('taskList');
+    const li = document.createElement('li');
+    li.innerHTML = '<span class="txt"></span><div class="actions"><button onclick="toggleDone(this)" title="Mark done">✓</button><button onclick="removeTask(this)" title="Delete">✕</button></div>';
+    li.querySelector('.txt').textContent = value;
+    list.appendChild(li);
+    input.value = '';
+    updateEmptyHint();
+  }
+  function toggleDone(btn){
+    btn.closest('li').classList.toggle('done');
+  }
+  function removeTask(btn){
+    btn.closest('li').remove();
+    updateEmptyHint();
+  }
+  function updateEmptyHint(){
+    const list = document.getElementById('taskList');
+    document.getElementById('emptyHint').style.display = list.children.length ? 'none' : 'block';
+  }
+  document.getElementById('taskInput').addEventListener('keydown', function(e){
+    if(e.key === 'Enter') addTask();
+  });
+</script>
+
+</body>
+</html>
