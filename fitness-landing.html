@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forge — Strength Training, Structured</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14171F;
+    --off:#F4F2ED;
+    --coral:#E4572E;
+    --sage:#7C8B6F;
+    --muted:#6B6F7A;
+    --line:#E1DDD3;
+    --display:'Bebas Neue', sans-serif;
+    --body:'Inter', sans-serif;
+    --mono:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--off); color:var(--ink); font-family:var(--body); line-height:1.6;}
+  a{color:inherit;}
+  .wrap{max-width:1040px; margin:0 auto; padding:0 24px;}
+
+  /* NAV */
+  nav{position:sticky; top:0; z-index:10; background:rgba(244,242,237,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line);}
+  nav .wrap{display:flex; justify-content:space-between; align-items:center; padding:16px 24px;}
+  .logo{font-family:var(--display); font-size:26px; letter-spacing:1px;}
+  nav ul{display:flex; gap:30px; list-style:none;}
+  nav ul a{font-size:14px; text-decoration:none; color:var(--muted); font-weight:500; transition:color .2s;}
+  nav ul a:hover{color:var(--coral);}
+  .nav-btn{background:var(--ink); color:var(--off); padding:9px 20px; border-radius:4px; font-size:13.5px; font-weight:600; text-decoration:none;}
+
+  /* HERO */
+  .hero{padding:80px 0 64px;}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:var(--coral); margin-bottom:16px;}
+  h1{font-family:var(--display); font-size:clamp(48px,7vw,86px); line-height:0.95; letter-spacing:0.5px; margin-bottom:18px; max-width:780px;}
+  h1 span{color:var(--coral);}
+  .sub{color:var(--muted); font-size:17px; max-width:480px; margin-bottom:30px;}
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{font-family:var(--body); font-weight:600; font-size:14.5px; padding:13px 24px; border-radius:4px; text-decoration:none; display:inline-block; transition:transform .15s;}
+  .btn-primary{background:var(--coral); color:var(--off);}
+  .btn-primary:hover{transform:translateY(-2px);}
+  .btn-ghost{border:1.5px solid var(--ink); color:var(--ink);}
+  .btn-ghost:hover{background:var(--ink); color:var(--off);}
+
+  /* SECTIONS */
+  section{padding:64px 0; border-top:1px solid var(--line);}
+  .sec-label{font-family:var(--mono); font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-bottom:10px;}
+  h2{font-family:var(--display); font-size:38px; letter-spacing:0.5px; margin-bottom:34px;}
+
+  /* SPLIT (signature) */
+  .split-grid{display:grid; grid-template-columns:repeat(6,1fr); gap:10px;}
+  @media(max-width:760px){.split-grid{grid-template-columns:repeat(3,1fr);}}
+  .day{background:var(--ink); color:var(--off); border-radius:6px; padding:18px 14px; min-height:110px; display:flex; flex-direction:column; justify-content:space-between;}
+  .day.rest{background:transparent; border:1.5px dashed var(--line); color:var(--muted);}
+  .day .d{font-family:var(--mono); font-size:11px; letter-spacing:1px; opacity:.75;}
+  .day .t{font-family:var(--display); font-size:19px; letter-spacing:0.5px; margin-top:auto;}
+  .split-note{color:var(--muted); font-size:14.5px; max-width:520px; margin-top:24px;}
+
+  /* FEATURES */
+  .feat-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:26px;}
+  @media(max-width:700px){.feat-grid{grid-template-columns:1fr;}}
+  .feat h3{font-family:var(--display); font-size:21px; letter-spacing:0.5px; margin-bottom:8px;}
+  .feat p{color:var(--muted); font-size:14.5px;}
+  .feat .num{font-family:var(--mono); font-size:12px; color:var(--coral); margin-bottom:10px;}
+
+  /* PRICING */
+  .plans{display:grid; grid-template-columns:repeat(2,1fr); gap:22px;}
+  @media(max-width:700px){.plans{grid-template-columns:1fr;}}
+  .plan{background:#fff; border:1px solid var(--line); border-radius:10px; padding:30px; display:flex; flex-direction:column; gap:12px;}
+  .plan.featured{background:var(--ink); color:var(--off); border-color:var(--ink);}
+  .plan h3{font-family:var(--display); font-size:22px; letter-spacing:0.5px;}
+  .price{font-family:var(--display); font-size:36px;}
+  .price span{font-family:var(--body); font-size:13px; font-weight:400; color:var(--muted);}
+  .plan.featured .price span{color:#A9ADB8;}
+  .plan ul{list-style:none; font-size:14px; opacity:.85; display:flex; flex-direction:column; gap:6px; margin:6px 0 10px;}
+  .plan .btn{margin-top:auto; text-align:center;}
+  .plan.featured .btn-ghost{border-color:var(--off); color:var(--off);}
+  .plan.featured .btn-ghost:hover{background:var(--off); color:var(--ink);}
+
+  /* CTA FOOTER */
+  footer{padding:64px 0; text-align:center; background:var(--ink); color:var(--off); border-top:none;}
+  footer h2{color:var(--off);}
+  footer p{color:#A9ADB8; max-width:440px; margin:0 auto 26px;}
+  .foot-note{margin-top:36px; font-size:12.5px; color:#787C88;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo">FORGE</div>
+    <ul>
+      <li><a href="#split">Program</a></li>
+      <li><a href="#features">Why Forge</a></li>
+      <li><a href="#plans">Pricing</a></li>
+    </ul>
+    <a class="nav-btn" href="#plans">Start free</a>
+  </div>
+</nav>
+
+<header class="hero wrap">
+  <div class="eyebrow">6-week strength program</div>
+  <h1>Train with a <span>plan</span>, not a guess.</h1>
+  <p class="sub">Forge gives you a structured weekly split, tracks every set and rep, and adjusts your next session based on how the last one went. No more scrolling for a workout.</p>
+  <div class="cta-row">
+    <a class="btn btn-primary" href="#plans">Start free</a>
+    <a class="btn btn-ghost" href="#split">See the program</a>
+  </div>
+</header>
+
+<section id="split">
+  <div class="wrap">
+    <div class="sec-label">Your week</div>
+    <h2>A split that makes sense</h2>
+    <div class="split-grid">
+      <div class="day"><span class="d">MON</span><span class="t">Push</span></div>
+      <div class="day"><span class="d">TUE</span><span class="t">Pull</span></div>
+      <div class="day rest"><span class="d">WED</span><span class="t">Rest</span></div>
+      <div class="day"><span class="d">THU</span><span class="t">Legs</span></div>
+      <div class="day"><span class="d">FRI</span><span class="t">Push</span></div>
+      <div class="day rest"><span class="d">SAT / SUN</span><span class="t">Rest</span></div>
+    </div>
+    <p class="split-note">Every session is pre-built — sets, reps, and rest timers included. Swap any day or exercise if it doesn't fit your gym.</p>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <div class="sec-label">Built for consistency</div>
+    <h2>Why people stick with it</h2>
+    <div class="feat-grid">
+      <div class="feat">
+        <div class="num">01</div>
+        <h3>Auto-progression</h3>
+        <p>Forge tracks your last lift and nudges the weight up when you're ready, so you're never guessing what to load.</p>
+      </div>
+      <div class="feat">
+        <div class="num">02</div>
+        <h3>Built-in rest timer</h3>
+        <p>Every set comes with a rest timer that starts the moment you log it — no separate stopwatch app needed.</p>
+      </div>
+      <div class="feat">
+        <div class="num">03</div>
+        <h3>Simple weekly view</h3>
+        <p>See your whole week at a glance, mark sessions done, and keep a streak going without extra admin.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="plans">
+  <div class="wrap">
+    <div class="sec-label">Pricing</div>
+    <h2>Start free, upgrade when ready</h2>
+    <div class="plans">
+      <div class="plan">
+        <h3>Free</h3>
+        <div class="price">₹0<span>/forever</span></div>
+        <ul>
+          <li>One training split</li>
+          <li>Manual logging</li>
+          <li>Weekly view</li>
+        </ul>
+        <a class="btn btn-ghost" href="#">Start free</a>
+      </div>
+      <div class="plan featured">
+        <h3>Pro</h3>
+        <div class="price">₹299<span>/month</span></div>
+        <ul>
+          <li>Auto-progression</li>
+          <li>Unlimited programs</li>
+          <li>Rest timers & streak tracking</li>
+        </ul>
+        <a class="btn btn-ghost" href="#">Go Pro</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <h2>Your next session is ready.</h2>
+    <p>Get started in seconds — your first training week takes under two minutes to set up</p>
+    <a class="btn btn-primary" href="#plans">Start free</a>
+    <div class="foot-note">Forge — train with a plan, not a guess.</div>
+  </div>
+</footer>
+
+</body>
+</html>
