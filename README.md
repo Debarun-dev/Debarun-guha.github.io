@@ -3,6 +3,8 @@
 content:
 
 1) Portfolio (index.html)
-2) Landing page 
+2) Landing page
+3) Quiz App
+   
 
 
