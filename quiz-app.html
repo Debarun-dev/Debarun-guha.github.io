@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuizNest — Test Your Knowledge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#5C1F2E;
+    --off:#F8F4EC;
+    --amber:#D9A441;
+    --green:#3E8E5A;
+    --red:#C7492F;
+    --muted:#7A6E72;
+    --line:#E7DFD2;
+    --display:'Space Grotesk', sans-serif;
+    --body:'Inter', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--off); color:var(--navy); font-family:var(--body); min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px;}
+
+  .card{background:#fff; width:100%; max-width:520px; border-radius:16px; box-shadow:0 20px 50px rgba(27,33,64,0.08); overflow:hidden;}
+
+  /* HEADER */
+  .head{background:var(--navy); color:var(--off); padding:26px 30px;}
+  .head .brand{font-family:var(--display); font-weight:700; font-size:20px; margin-bottom:4px;}
+  .head .tag{font-size:13px; color:#B9BCD1;}
+
+  /* PROGRESS */
+  .progress-track{height:6px; background:var(--line);}
+  .progress-fill{height:100%; background:var(--amber); width:0%; transition:width .3s ease;}
+
+  /* BODY */
+  .body{padding:32px 30px;}
+  .qcount{font-size:12.5px; color:var(--muted); font-weight:600; letter-spacing:0.5px; margin-bottom:10px;}
+  .question{font-family:var(--display); font-weight:600; font-size:21px; line-height:1.35; margin-bottom:24px;}
+
+  .options{display:flex; flex-direction:column; gap:12px;}
+  .opt{text-align:left; background:var(--off); border:1.5px solid var(--line); border-radius:10px; padding:14px 16px; font-family:var(--body); font-size:14.5px; font-weight:500; color:var(--navy); cursor:pointer; transition:border-color .15s, background .15s;}
+  .opt:hover{border-color:var(--amber);}
+  .opt.correct{background:#E7F3EA; border-color:var(--green); color:var(--green);}
+  .opt.wrong{background:#FBEAE6; border-color:var(--red); color:var(--red);}
+  .opt:disabled{cursor:default;}
+
+  .foot{display:flex; justify-content:space-between; align-items:center; margin-top:26px;}
+  .score-live{font-size:13px; color:var(--muted); font-weight:600;}
+  .next-btn{background:var(--navy); color:#fff; border:none; padding:11px 22px; border-radius:8px; font-family:var(--body); font-weight:600; font-size:14px; cursor:pointer; opacity:0; pointer-events:none; transition:opacity .2s;}
+  .next-btn.show{opacity:1; pointer-events:auto;}
+
+  /* RESULT */
+  .result{padding:44px 30px; text-align:center; display:none;}
+  .result.show{display:block;}
+  .result .score-big{font-family:var(--display); font-weight:700; font-size:54px; color:var(--amber); margin:14px 0 6px;}
+  .result .score-label{color:var(--muted); font-size:14px; margin-bottom:26px;}
+  .result .msg{font-family:var(--display); font-weight:600; font-size:19px; margin-bottom:8px;}
+  .restart-btn{background:var(--amber); color:var(--navy); border:none; padding:12px 26px; border-radius:8px; font-family:var(--body); font-weight:600; font-size:14.5px; cursor:pointer; margin-top:10px;}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="head">
+    <div class="brand">QuizNest</div>
+    <div class="tag">General Knowledge Trivia</div>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+  <div class="body" id="quizBody">
+    <div class="qcount" id="qCount">Question 1 of 6</div>
+    <div class="question" id="questionText"></div>
+    <div class="options" id="optionsWrap"></div>
+    <div class="foot">
+      <div class="score-live" id="scoreLive">Score: 0</div>
+      <button class="next-btn" id="nextBtn">Next →</button>
+    </div>
+  </div>
+
+  <div class="result" id="resultBox">
+    <div class="score-label">You scored</div>
+    <div class="score-big" id="finalScore">0 / 6</div>
+    <div class="msg" id="finalMsg"></div>
+    <button class="restart-btn" id="restartBtn">Try Again</button>
+  </div>
+</div>
+
+<script>
+  const questions = [
+    { q: "Which planet is known as the Red Planet?", options: ["Venus", "Mars", "Jupiter", "Saturn"], answer: 1 },
+    { q: "Who wrote the play 'Romeo and Juliet'?", options: ["Charles Dickens", "William Shakespeare", "Mark Twain", "Leo Tolstoy"], answer: 1 },
+    { q: "What is the largest ocean on Earth?", options: ["Atlantic", "Indian", "Arctic", "Pacific"], answer: 3 },
+    { q: "Which gas do plants absorb from the atmosphere?", options: ["Oxygen", "Nitrogen", "Carbon Dioxide", "Hydrogen"], answer: 2 },
+    { q: "What is the capital city of Japan?", options: ["Seoul", "Beijing", "Tokyo", "Bangkok"], answer: 2 },
+    { q: "Which language runs natively in a web browser?", options: ["Python", "JavaScript", "C++", "Java"], answer: 1 },
+    { q: "What is the smallest prime number?", options: ["0", "1", "2", "3"], answer: 2 },
+    { q: "Which country is home to the Great Barrier Reef?", options: ["Brazil", "Australia", "Indonesia", "Mexico"], answer: 1 },
+    { q: "Who painted the Mona Lisa?", options: ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Claude Monet"], answer: 2 },
+    { q: "Which is the longest river in the world?", options: ["Amazon", "Nile", "Yangtze", "Mississippi"], answer: 1 }
+  ];
+
+  let current = 0;
+  let score = 0;
+  let answered = false;
+
+  const questionText = document.getElementById('questionText');
+  const optionsWrap = document.getElementById('optionsWrap');
+  const qCount = document.getElementById('qCount');
+  const scoreLive = document.getElementById('scoreLive');
+  const nextBtn = document.getElementById('nextBtn');
+  const progressFill = document.getElementById('progressFill');
+  const quizBody = document.getElementById('quizBody');
+  const resultBox = document.getElementById('resultBox');
+  const finalScore = document.getElementById('finalScore');
+  const finalMsg = document.getElementById('finalMsg');
+  const restartBtn = document.getElementById('restartBtn');
+
+  function loadQuestion(){
+    answered = false;
+    nextBtn.classList.remove('show');
+    const item = questions[current];
+    qCount.textContent = `Question ${current + 1} of ${questions.length}`;
+    questionText.textContent = item.q;
+    progressFill.style.width = `${(current / questions.length) * 100}%`;
+    optionsWrap.innerHTML = '';
+    item.options.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'opt';
+      btn.textContent = opt;
+      btn.addEventListener('click', () => selectAnswer(i, btn));
+      optionsWrap.appendChild(btn);
+    });
+  }
+
+  function selectAnswer(i, btn){
+    if (answered) return;
+    answered = true;
+    const item = questions[current];
+    const allBtns = optionsWrap.querySelectorAll('.opt');
+    allBtns.forEach(b => b.disabled = true);
+
+    if (i === item.answer){
+      btn.classList.add('correct');
+      score++;
+    } else {
+      btn.classList.add('wrong');
+      allBtns[item.answer].classList.add('correct');
+    }
+    scoreLive.textContent = `Score: ${score}`;
+    nextBtn.classList.add('show');
+  }
+
+  nextBtn.addEventListener('click', () => {
+    current++;
+    if (current < questions.length){
+      loadQuestion();
+    } else {
+      progressFill.style.width = '100%';
+      showResult();
+    }
+  });
+
+  function showResult(){
+    quizBody.style.display = 'none';
+    resultBox.classList.add('show');
+    finalScore.textContent = `${score} / ${questions.length}`;
+    let msg = "Good effort — keep practicing!";
+    if (score === questions.length) msg = "Perfect score! 🎉";
+    else if (score >= questions.length * 0.7) msg = "Great job!";
+    finalMsg.textContent = msg;
+  }
+
+  restartBtn.addEventListener('click', () => {
+    current = 0;
+    score = 0;
+    scoreLive.textContent = 'Score: 0';
+    resultBox.classList.remove('show');
+    quizBody.style.display = 'block';
+    loadQuestion();
+  });
+
+  loadQuestion();
+</script>
+
+</body>
+</html>
